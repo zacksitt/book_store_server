@@ -12,7 +12,7 @@ exports.sign_in = async function(req,res){
 
       }
   
-      let userResult = await Customer.findOne({where:{email:req.body.email}});
+      let userResult = await Customer.findOne({where:{email:req.body.email,active:1}});
       const isPasswordMatch = await bcrypt.compare(req.body.password, userResult.password)
       if (!isPasswordMatch) {
         res.send({ user:null ,status:0,msg:"Invalid login"});
@@ -31,6 +31,56 @@ exports.sign_in = async function(req,res){
     }
 }
 
+exports.get = async function(req,res){
+  try {
+    let customers = await Customer.findAll({where:{active:1}});
+    res.send({status:1,customers:customers})
+
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).send({status:0,msg:error.message})
+  }
+}
+
+exports.update = async function(req,res){
+
+  try {
+  
+    let customerObj = {};
+    
+    if(req.body.name){
+      customerObj.name = req.body.name;
+    }
+    
+    if(req.body.email){
+      customerObj.email = req.body.email;
+    }
+
+    if(req.body.password){
+      customerObj.password = await bcrypt.hash(req.body.password, 8)
+    }
+    
+    await Customer.update(customerObj,{where:{id:req.body.id}});
+    res.send({status:1,msg:"Customer has been updated successfully"});
+
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).send({status:0,msg:error.message})
+  }
+}
+
+exports.del = async function(req,res){
+
+  try {
+  
+    await Customer.update({"active":0},{where:{id:req.body.id}});
+    res.send({status:1,msg:"Customer has been deleted successfully"});
+
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).send({status:0,msg:error.message})
+  }
+}
 exports.sign_up = async function(req,res){
   
     try{

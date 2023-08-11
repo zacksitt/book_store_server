@@ -5,6 +5,37 @@ const Book = require('../models/book');
 const Saledetail = require('../models/saledetail');
 const Sale = require('../models/sale');
 
+exports.get = async function(req,res){
+  try {
+    let sales = await Sale.findAll(
+      {
+        include:[
+          { 
+          
+            model:Saledetail,
+            include: 
+            {
+              model: Book,
+              'as':'Book' // Include the associated Publisher model for each author
+            },
+        
+          },{
+            model: Customer,
+            'as':'Customer',
+            attributes: ['id','name','email']
+          }
+        ]
+      },{
+        where:{active:1}
+      });
+    res.send({status:1,sales})
+
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).send({status:0,msg:error.message})
+  }
+}
+
 exports.create = async function(req,res){
     try {
         

@@ -1,6 +1,6 @@
 const {Sequelize, DataTypes} = require("sequelize");
 const sequelize = require("../db");
-const Sale = require("./sale");
+
 
 const Customer = sequelize.define("customers", {
     name: {
@@ -20,6 +20,10 @@ const Customer = sequelize.define("customers", {
         type: DataTypes.STRING,
         allowNull: true
     },
+    active:{
+        type: DataTypes.TINYINT,
+        defaultValue:1
+    },
         createdAt: {
         type: Sequelize.DATE,
         defaultValue: Sequelize.NOW,  // Set the default value to the current date and time
@@ -29,7 +33,6 @@ const Customer = sequelize.define("customers", {
         defaultValue: Sequelize.NOW,  // Set the default value to the current date and time
     },
  });
- Customer.hasMany(Sale)
 
  sequelize.sync().then(() => {
     console.log('Customer table has been created successfully!');

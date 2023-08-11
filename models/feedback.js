@@ -8,6 +8,10 @@ const Feedback = sequelize.define("feedbacks", {
         type: DataTypes.TEXT,
         allowNull: false
     },
+    customerId:{
+        type:DataTypes.INTEGER,
+        allowNull:false
+    },
     createdAt: {
         type: Sequelize.DATE,
         defaultValue: Sequelize.NOW,  // Set the default value to the current date and time
@@ -17,7 +21,7 @@ const Feedback = sequelize.define("feedbacks", {
         defaultValue: Sequelize.NOW,  // Set the default value to the current date and time
     },
  });
- Feedback.hasOne(Customer);
+ Feedback.belongsTo(Customer, {as: 'Customer', foreignKey: 'customerId'});
 
  sequelize.sync().then(() => {
     console.log('Feedback table has been created successfully!');

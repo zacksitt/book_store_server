@@ -1,10 +1,15 @@
 const {Sequelize, DataTypes} = require("sequelize");
 const sequelize = require("../db");
-const Customer = require("./customer");
 const Saledetail = require("./saledetail");
+const Customer = require("./customer");
+
 
 const Sale = sequelize.define("sales", {
-  
+    
+    customerId:{
+        type:DataTypes.INTEGER,
+        allowNull:false
+    },
     total_amount: {
         type: DataTypes.DECIMAL,
         allowNull: false
@@ -18,7 +23,8 @@ const Sale = sequelize.define("sales", {
         defaultValue: Sequelize.NOW,  // Set the default value to the current date and time
     },
  });
- Sale.hasOne(Saledetail)
+ Sale.hasMany(Saledetail)
+ Sale.belongsTo(Customer, {as: 'Customer', foreignKey: 'customerId'});
 
  sequelize.sync().then(() => {
     console.log('Sale table has been created successfully!');

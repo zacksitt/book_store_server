@@ -21,7 +21,7 @@ const Book = sequelize.define("books", {
     },
     active: {
         type: DataTypes.TINYINT,
-        defaultValue: 0
+        defaultValue: 1
     },
     createdAt: {
         type: Sequelize.DATE,
