@@ -8,7 +8,7 @@ const Book = sequelize.define("books", {
       allowNull: false
     },
     price:{
-      type: DataTypes.DECIMAL,
+      type: DataTypes.INTEGER,
       allowNull: false
     },
     authorId:{

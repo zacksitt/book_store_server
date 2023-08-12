@@ -24,19 +24,21 @@ const customerCtrl = require("./controllers/customerController")
 const saleCtrl = require("./controllers/saleController");
 const bookCtrl = require("./controllers/bookController");
 const feedbackCtrl = require("./controllers/feedbackController")
-//autho
+//user
 app.post('/api/signin',customerCtrl.sign_in)
 app.post('/api/signup',customerCtrl.sign_up)
 //customers
 app.get('/api/auth/customers',cauth,customerCtrl.get)
 app.put('/api/auth/customer',cauth,customerCtrl.update)
-app.delete('/api/auth/customer',cauth,customerCtrl.del)
+app.del('/api/auth/customer/:id',cauth,customerCtrl.del)
 //sale
 app.post('/api/auth/sale',cauth,saleCtrl.create)
 app.get('/api/auth/sales',cauth,saleCtrl.get)
+//author
+app.get('/api/auth/authors',cauth,bookCtrl.getAuthors)
 //books
 app.put('/api/auth/book',cauth,bookCtrl.create)
-app.delete('/api/auth/book',cauth,bookCtrl.del)
+app.delete('/api/auth/book/:id',cauth,bookCtrl.del)
 app.post('/api/auth/book',cauth,bookCtrl.create)
 app.get('/api/auth/books',cauth,bookCtrl.get)
 //feedback

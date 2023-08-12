@@ -72,8 +72,8 @@ exports.update = async function(req,res){
 exports.del = async function(req,res){
 
   try {
-  
-    await Customer.update({"active":0},{where:{id:req.body.id}});
+
+    await Customer.update({"active":0},{where:{id:req.params.id}});
     res.send({status:1,msg:"Customer has been deleted successfully"});
 
   } catch (error) {
