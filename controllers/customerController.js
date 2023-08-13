@@ -1,32 +1,44 @@
 const Customer = require('../models/customer')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
+const tokenBlacklist = new Set();
+
 exports.sign_in = async function(req,res){
   
     try{
         
       if(!req.body.email || !req.body.password){
   
-        res.send({ user:null ,status:0,msg:"Invalid login"});
+        res.send({ user:null ,status:0,msg:"Invalid data"});
         return;
 
       }
   
       let userResult = await Customer.findOne({where:{email:req.body.email,active:1}});
+      if(!userResult){
+        res.send({ user:null ,status:0,msg:"Invalid login"});
+        return;
+      }
+
       const isPasswordMatch = await bcrypt.compare(req.body.password, userResult.password)
       if (!isPasswordMatch) {
         res.send({ user:null ,status:0,msg:"Invalid login"});
         return;
 
       }
+      const token = jwt.sign({id: userResult.id}, process.env.JWT_KEY?process.env.JWT_KEY:"ABCDEF")
+      console.log("token",token);
+
+      await Customer.update({token},{where:{id:userResult.id}});
+
       let customerResult = {
         name: userResult.name,
         email:userResult.email
       }
-      res.send({ customer: customerResult, token:userResult.token ,status:1});
+      res.send({ customer: customerResult, token:token ,status:1});
     
     } catch (error) {
-        console.error(error.message);
+        console.error(error);
         res.status(500).send({status:0,msg:error.message})
     }
 }
@@ -114,15 +126,24 @@ exports.sign_up = async function(req,res){
 }
   
  
- exports.logout = async function(req,res){
+ exports.sign_out = async function(req,res){
+
      // Log user out of the application
    try {
-     req.user.tokens = req.user.tokens.filter((token) => {
-         return token.token != req.token
-     })
-     await req.user.save()
-     res.send()
+    if(req.token){
+      // tokenBlacklist.add(req.token);
+      await Customer.update({token:null},{where:{id:req.customer.id}});
+      console.log("add to blacklist.")
+    }
+    //  req.customer.tokens = req.customer.tokens.filter((token) => {
+    //      return token.token != req.token
+    //  })
+    //  await req.customer.save()
+     res.send({status:1,'msg': "Sign out successfully."})
+
  } catch (error) {
+
+     console.log(error);
      res.status(500).send(error)
  }
  }

@@ -27,6 +27,7 @@ const feedbackCtrl = require("./controllers/feedbackController")
 //user
 app.post('/api/signin',customerCtrl.sign_in)
 app.post('/api/signup',customerCtrl.sign_up)
+app.post('/api/auth/signout',cauth,customerCtrl.sign_out)
 //customers
 app.get('/api/auth/customers',cauth,customerCtrl.get)
 app.put('/api/auth/customer',cauth,customerCtrl.update)
