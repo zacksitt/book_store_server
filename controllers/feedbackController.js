@@ -12,7 +12,8 @@ exports.get = async function(req,res){
                 model:Customer,
                 'as': "Customer",
                 'attributes':['id','name','email']
-            }
+            },
+            where:{active:1}  
         }
     );
     res.send({status:1,feedbacks:feedbacks})
@@ -48,8 +49,8 @@ exports.create = async function(req,res){
 exports.del = async (req,res) => {
   try {
     
-    await Book.update({"active":0},{where:{id:req.body.id}});
-    res.send({status:1,msg:"Book has been deleted successfully"});
+    await Feedback.update({"active":0},{where:{id:req.params.id}});
+    res.send({status:1,msg:"Feedback has been deleted successfully"});
   } catch (error) {
     res.send({status:1,msg:error.message})
   }

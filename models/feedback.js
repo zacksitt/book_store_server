@@ -12,6 +12,10 @@ const Feedback = sequelize.define("feedbacks", {
         type:DataTypes.INTEGER,
         allowNull:false
     },
+    active:{
+        type:DataTypes.TINYINT,
+        defaultValue:1
+    },
     createdAt: {
         type: Sequelize.DATE,
         defaultValue: Sequelize.NOW,  // Set the default value to the current date and time

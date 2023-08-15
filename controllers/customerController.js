@@ -120,7 +120,8 @@ exports.sign_up = async function(req,res){
     
     } catch (error) {
 
-      console.error(error.message);
+      console.error(error);
+
       res.status(500).send({status:0,msg:error.message})
     }
 }

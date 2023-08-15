@@ -24,9 +24,9 @@ exports.get = async function(req,res){
             'as':'Customer',
             attributes: ['id','name','email']
           }
-        ]
-      },{
+        ],
         where:{active:1}
+      
       });
     res.send({status:1,sales})
 

@@ -31,7 +31,7 @@ app.post('/api/auth/signout',cauth,customerCtrl.sign_out)
 //customers
 app.get('/api/auth/customers',cauth,customerCtrl.get)
 app.put('/api/auth/customer',cauth,customerCtrl.update)
-app.del('/api/auth/customer/:id',cauth,customerCtrl.del)
+app.delete('/api/auth/customer/:id',cauth,customerCtrl.del)
 //sale
 app.post('/api/auth/sale',cauth,saleCtrl.create)
 app.get('/api/auth/sales',cauth,saleCtrl.get)
@@ -45,6 +45,7 @@ app.get('/api/auth/books',cauth,bookCtrl.get)
 //feedback
 app.get('/api/auth/feedbacks',cauth,feedbackCtrl.get)
 app.post('/api/auth/feedback',cauth,feedbackCtrl.create)
+app.delete('/api/auth/feedback/:id',cauth,feedbackCtrl.del)
 
 app.listen(3000, () => {
     console.log("Server is listening on port 3000")
