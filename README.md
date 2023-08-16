@@ -11,20 +11,23 @@ To get started with this project, follow these steps:
 
    ```bash
    git clone https://github.com/zacksitt/book_store_server.git
+   
 Navigate to the project directory:
 
+   ```bash
+   cd book_store_server
+   ```
 
-cd book_store_server
-
-bash
-Copy code
 Check out branch:
-git checkout master
+   
+   ```bash
+   git checkout master
+   ```
 
-bash
-Copy code
 Install dependencies:
-npm install
+   ```bash
+   npm install
+   ```
 
 Configure the database:
 Create a database
@@ -32,11 +35,13 @@ Create a database
 Configure the ENV:
 Create a .env file in the root directory based on the .env.example file.
 Update the database connection details in the .env file.
+
 Run the development server with Nodemon:
 
-bash
-Copy code
-npm start
+```bash 
+   npm start
+```
+
 
 Features
 Automatic server restarts during development with Nodemon.
